@@ -10,6 +10,8 @@ import PersonAddIcon from '@material-ui/icons/PersonAddOutlined';
 import Page from '../../common/Page';
 import RegisterForm from './RegisterForm';
 import Link from '@material-ui/core/Link';
+import { registerUser } from './actions'
+import { newUser } from './types'
 const useStyles = createStyles((theme: Theme) => ({
     root: {
         height: '100%',
@@ -78,6 +80,12 @@ class Register extends React.Component<any, any> {
 
         }
     }
+
+    onFormSubmit = async (newUser: newUser) => {
+        const response = await registerUser(newUser)
+        console.log(response)
+    }
+
     preventDefault = (event: React.SyntheticEvent) => {
         this.props.handleSwitchLogin(true)
         event.preventDefault()
@@ -101,7 +109,7 @@ class Register extends React.Component<any, any> {
                         <Typography variant="subtitle2">
                             Sign up on the internal platform
                     </Typography>
-                        <RegisterForm className={classes.registerForm} />
+                        <RegisterForm className={classes.registerForm} onFormSubmit={this.onFormSubmit} />
                         <Divider className={classes.divider} />
                         <div style={{ width: '100%', textAlign: 'center', paddingTop: 10 }}>
                             <Link href="#" onClick={this.preventDefault}>

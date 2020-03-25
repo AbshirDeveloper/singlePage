@@ -7,3 +7,11 @@ export const isDevEnv = () => {
         return false
     }
 }
+
+const getBaseUrl = () => {
+    return 'localhost:3000'
+}
+
+export const urlCreator = (url: string) => {
+    return `${getBaseUrl}/${url}`
+}

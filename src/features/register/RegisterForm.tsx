@@ -5,6 +5,7 @@ import {
     Button,
     TextField,
 } from '@material-ui/core';
+import { FormProps } from './types'
 
 const useStyles = createStyles((theme: Theme) => ({
     root: {},
@@ -30,7 +31,7 @@ const useStyles = createStyles((theme: Theme) => ({
     }
 }));
 
-class RegisterForm extends React.Component<any, any> {
+class RegisterForm extends React.Component<FormProps, any> {
     constructor(props: any) {
         super(props)
         this.state = {
@@ -43,39 +44,43 @@ class RegisterForm extends React.Component<any, any> {
         }
     }
 
-    validate = (type: string, value: string) => {
-        switch (type) {
-            case 'email':
-                const format = "/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/";
-                return !!value.match(format)
-            case 'confirm-password':
-                return value === this.state.formState.values.password
-            default:
-                return true
-        }
-    }
-
     handleChange = (event: any) => {
         const name = event.target.name;
         const value = event.target.value;
         const errors = this.state.formState.errors
-        if (name === 'email' || name === 'confirmPassword') {
-            const valid = this.validate(event.target.name, event.target.value);
-            debugger
-            if (valid) {
-                errors[name] = name === 'email' ? 'Email is not in correct format' : "Passwords don't match"
-            } else {
-                errors[name] = ''
-            }
+        if (name === 'email') {
+            const valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+            errors['email'] = !valid ? {
+                error: !valid,
+                errorMessage: 'Email format is not right'
+            } : false
         }
-        console.log(errors)
+
+        if (name === 'confirmPassword') {
+            const err = value === this.state.formState.values.password
+            errors['confirmPassword'] = !err ? {
+                error: err,
+                errorMessage: "Passwords don't match"
+            } : false
+        }
+
+        if (name === 'password') {
+            const valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(value);
+            errors['password'] = !valid ? {
+                error: !valid,
+                errorMessage: "Password must be atlease 8 characters long and contain upper and lower case characters"
+            } : false
+        }
         this.setState({
             formState: {
                 ...this.state.formState,
                 values: {
                     ...this.state.formState.values,
                     [name]: value,
-                    error: errors
+                },
+                touched: {
+                    ...this.state.touched,
+                    [name]: true
                 }
             }
         })
@@ -84,16 +89,19 @@ class RegisterForm extends React.Component<any, any> {
 
     handleSubmit = (event: any) => {
         event.preventDefault();
+        this.props.onFormSubmit && this.props.onFormSubmit(this.state.formState.values)
     };
+
 
     hasError = (field: any) => !!(this.state.formState.touched[field] && this.state.formState.errors[field]);
 
     render() {
         const { className, classes, ...rest } = this.props
-
+        const allAreFilled = Object.values(this.state.formState.values).length === 6;
+        const nonIsEmpty = Object.values(this.state.formState.values).some((val: any) => val.length === 0);
+        const error = Object.values(this.state.formState.errors).some((val: any) => val !== false)
         return (
             <form
-                {...rest}
                 className={clsx(classes.root, className)}
                 onSubmit={this.handleSubmit}
             >
@@ -101,7 +109,7 @@ class RegisterForm extends React.Component<any, any> {
                     <TextField
                         error={this.hasError('ID')}
                         helperText={
-                            this.hasError('id') ? this.state.formState.errors.id : null
+                            this.hasError('id') ? this.state.formState.errors.id.errorMessage : null
                         }
                         label="ID"
                         name="id"
@@ -113,7 +121,7 @@ class RegisterForm extends React.Component<any, any> {
                     <TextField
                         error={this.hasError('firstName')}
                         helperText={
-                            this.hasError('firstName') ? this.state.formState.errors.firstName : null
+                            this.hasError('firstName') ? this.state.formState.errors.firstName.errorMessage : null
                         }
                         label="First name"
                         name="firstName"
@@ -124,7 +132,7 @@ class RegisterForm extends React.Component<any, any> {
                     <TextField
                         error={this.hasError('lastName')}
                         helperText={
-                            this.hasError('lastName') ? this.state.formState.errors.lastName : null
+                            this.hasError('lastName') ? this.state.formState.errors.lastName.errorMessage : null
                         }
                         label="Last name"
                         name="lastName"
@@ -134,7 +142,7 @@ class RegisterForm extends React.Component<any, any> {
                     />
                     <TextField
                         error={this.hasError('email')}
-                        helperText={this.hasError('email') ? this.state.formState.errors.email : null}
+                        helperText={this.hasError('email') ? this.state.formState.errors.email.errorMessage : null}
                         label="Email address"
                         name="email"
                         onChange={this.handleChange}
@@ -144,7 +152,7 @@ class RegisterForm extends React.Component<any, any> {
                     <TextField
                         error={this.hasError('password')}
                         helperText={
-                            this.hasError('password') ? this.state.formState.errors.password : null
+                            this.hasError('password') ? this.state.formState.errors.password.errorMessage : null
                         }
                         label="Password"
                         name="password"
@@ -154,22 +162,22 @@ class RegisterForm extends React.Component<any, any> {
                         variant="outlined"
                     />
                     <TextField
-                        error={this.hasError('password')}
+                        error={this.hasError('confirmPassword')}
                         helperText={
-                            this.hasError('confirm password') ? this.state.formState.errors.password : null
+                            this.hasError('confirmPassword') ? this.state.formState.errors.confirmPassword.errorMessage : null
                         }
                         label="Confirm Password"
                         name="confirmPassword"
                         onChange={this.handleChange}
                         type="password"
-                        value={this.state.formState.values.password || ''}
+                        value={this.state.formState.values.confirmPassword || ''}
                         variant="outlined"
                     />
                 </div>
                 <Button
                     className={classes.submitButton}
                     color="secondary"
-                    disabled={!this.state.formState.isValid}
+                    disabled={!(allAreFilled && !nonIsEmpty && !error)}
                     size="large"
                     type="submit"
                     variant="contained"
