@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { Button, TextField } from '@material-ui/core';
 import { Theme, createStyles, withStyles } from '@material-ui/core/styles';
-
+import { LoginFormProps, LoginFormState } from './types'
 
 const useStyles = createStyles((theme: Theme) => ({
     root: {},
@@ -21,7 +21,7 @@ const useStyles = createStyles((theme: Theme) => ({
     }
 }));
 
-class LoginForm extends React.Component<any, any> {
+class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     constructor(props: any) {
         super(props)
         this.state = {
@@ -105,7 +105,7 @@ class LoginForm extends React.Component<any, any> {
                     variant="contained"
                 >
                     Sign in
-          </Button>
+                </Button>
             </form>
         );
     }

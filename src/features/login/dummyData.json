@@ -1,0 +1,14 @@
+{
+    "successData": {
+        "Success": true,
+        "Payload": {
+            "Data": [
+                {
+                    "Email": "abshirj05@gmail.com",
+                    "Password": "Abshir"
+                }
+            ]
+        },
+        "Error": false
+    }
+}

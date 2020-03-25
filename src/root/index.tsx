@@ -34,7 +34,6 @@ class Root extends Component<RootProps, RootState> {
 
     render() {
         const { userVerified } = this.state
-
         return (
             <div>
                 {userVerified ? this.renderContent() : this.renderLogin()}
