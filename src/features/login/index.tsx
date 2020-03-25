@@ -11,7 +11,8 @@ import LockIcon from '@material-ui/icons/Lock';
 import { Theme, createStyles, withStyles } from '@material-ui/core/styles';
 import Page from '../../common/Page';
 import LoginForm from './LoginForm';
-
+import Link from '@material-ui/core/Link';
+import { login } from './actions'
 const useStyles = createStyles((theme: Theme) => ({
     root: {
         height: '100%',
@@ -73,10 +74,26 @@ const useStyles = createStyles((theme: Theme) => ({
 }));
 
 class Login extends React.Component<Props, State> {
+    constructor(props: any) {
+        super(props)
+        this.state = {
+            userInfo: {
+                email: '',
+                password: ''
+            }
+        }
+    }
 
-
+    onSubmit = async () => {
+        const response = await login(this.state.userInfo)
+    }
     render() {
         const { classes } = this.props
+        const preventDefault = (event: React.SyntheticEvent) => {
+            this.props.handleSwitchLogin(false)
+            event.preventDefault()
+        };
+
         return (
             <Page
                 className={classes.root}
@@ -96,6 +113,11 @@ class Login extends React.Component<Props, State> {
                         </Typography>
                         <LoginForm className={classes.loginForm} />
                         <Divider className={classes.divider} />
+                        <div style={{ width: '100%', textAlign: 'center', paddingTop: 10 }}>
+                            <Link href="#" onClick={preventDefault}>
+                                Register
+                            </Link>
+                        </div>
                     </CardContent>
                 </Card>
             </Page>
