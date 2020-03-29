@@ -12,7 +12,9 @@ import { Theme, createStyles, withStyles } from '@material-ui/core/styles';
 import Page from '../../common/Page';
 import LoginForm from './LoginForm';
 import Link from '@material-ui/core/Link';
-import { login } from './actions'
+import { login, validatClient } from './actions'
+import { UserInfo } from './types'
+import { setSession } from '../../Utils/utls'
 const useStyles = createStyles((theme: Theme) => ({
     root: {
         height: '100%',
@@ -77,15 +79,26 @@ class Login extends React.Component<Props, State> {
     constructor(props: any) {
         super(props)
         this.state = {
-            userInfo: {
-                email: '',
-                password: ''
-            }
+            userError: ''
         }
     }
 
-    onSubmit = async () => {
-        const response = await login(this.state.userInfo)
+    onSubmit = async (userInfo: UserInfo) => {
+        const response = await login(userInfo)
+        let errorMessage = ''
+        if (!response.data.successData.Error.error) {
+            const userInfo: any = response.data.successData.Payload.Data[0]
+            setSession('userInfo', JSON.stringify(userInfo))
+            this.props.loggedin(true, userInfo.clientId)
+            errorMessage = ''
+        } else {
+            setSession('userInfo', {})
+            this.props.loggedin(false)
+            errorMessage = response.data.successData.Error.errorMessage
+            this.setState({
+                userError: errorMessage
+            })
+        }
     }
     render() {
         const { classes } = this.props
@@ -102,6 +115,7 @@ class Login extends React.Component<Props, State> {
                 <Card className={classes.card}>
                     <CardContent className={classes.content}>
                         <LockIcon className={classes.icon} />
+                        <Typography color="error">{this.state.userError}</Typography>
                         <Typography
                             gutterBottom
                             variant="h3"
@@ -111,7 +125,7 @@ class Login extends React.Component<Props, State> {
                         <Typography variant="subtitle2">
                             Sign in on the internal platform
                         </Typography>
-                        <LoginForm className={classes.loginForm} />
+                        <LoginForm onFormSubmit={this.onSubmit} className={classes.loginForm} />
                         <Divider className={classes.divider} />
                         <div style={{ width: '100%', textAlign: 'center', paddingTop: 10 }}>
                             <Link href="#" onClick={preventDefault}>

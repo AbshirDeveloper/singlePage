@@ -2,10 +2,35 @@
     "successData": {
         "Success": true,
         "Payload": {
-            "Data": [
+            "Users": [
                 {
+                    "ID": 1234,
+                    "Name": "Abshir",
+                    "LastName": "Jama",
                     "Email": "abshirj05@gmail.com",
-                    "Password": "Abshir"
+                    "Password": "Abshirja34",
+                    "token": "token",
+                    "userType": 1,
+                    "clientId": 1,
+                    "refresh_token": "refresh_token"
+                },
+                {
+                    "ID": 1235,
+                    "Name": "Jama",
+                    "LastName": "Abshir",
+                    "Email": "abshir@gmail.com",
+                    "Password": "Abshirja34",
+                    "token": "token",
+                    "userType": 0,
+                    "clientId": 1,
+                    "refresh_token": "refresh_token"
+                }
+            ],
+            "Clients": [
+                {
+                    "clientId": 1,
+                    "name": "Shirkada dhismaha ee towfiif",
+                    "active": true
                 }
             ]
         },

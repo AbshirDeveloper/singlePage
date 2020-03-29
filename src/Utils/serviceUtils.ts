@@ -1,5 +1,6 @@
 export const isDevEnv = () => {
-    if (process.env.REACT_APP_USE_DUMMY_DATA) {
+    const isDev = process.env.REACT_APP_USE_DUMMY_DATA
+    if (isDev) {
         console.log('ENV: Development')
         return true
     } else {

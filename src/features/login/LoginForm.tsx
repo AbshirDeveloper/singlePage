@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { Button, TextField } from '@material-ui/core';
 import { Theme, createStyles, withStyles } from '@material-ui/core/styles';
 import { LoginFormProps, LoginFormState } from './types'
+import { validateEmail } from '../../Utils/utls'
 
 const useStyles = createStyles((theme: Theme) => ({
     root: {},
@@ -35,39 +36,48 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     }
 
     handleChange = (event: any) => {
-        event.persist();
+        const name = event.target.name;
+        const value = event.target.value;
+        const errors = this.state.formState.errors
+        let isValid = true;
+        if (name === 'email') {
+            const valid = validateEmail(value)
+            errors['email'] = !valid ? {
+                error: !valid,
+                errorMessage: 'Email is not right'
+            } : false;
+            isValid = valid
+        }
 
         this.setState({
-            ...this.state,
             formState: {
                 ...this.state.formState,
                 values: {
                     ...this.state.formState.values,
-                    [event.target.name]:
-                        event.target.type === 'checkbox'
-                            ? event.target.checked
-                            : event.target.value
+                    [name]: value,
                 },
                 touched: {
                     ...this.state.formState.touched,
-                    [event.target.name]: true
-                }
+                    [name]: true
+                },
+                isValid: isValid
             }
-        });
+        })
+        event.persist();
     };
 
     handleSubmit = async (event: any) => {
         event.preventDefault();
+        this.props.onFormSubmit && this.props.onFormSubmit(this.state.formState.values)
     };
 
     hasError = (field: any) => (!!(this.state.formState.touched[field] && this.state.formState.errors[field]));
 
     render() {
         const { className, classes, ...rest } = this.props
-
+        const allAreFilled = Object.values(this.state.formState.values).length === 2 && !Object.values(this.state.formState.values).some((val: any) => val.length === 0);
         return (
             <form
-                {...rest}
                 className={clsx(classes.root, className)}
                 onSubmit={this.handleSubmit}
             >
@@ -75,7 +85,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
                     <TextField
                         error={this.hasError('email')}
                         fullWidth
-                        helperText={this.hasError('email') ? this.state.formState.errors.email[0] : null}
+                        helperText={this.hasError('email') ? this.state.formState.errors.email.errorMessage : null}
                         label="Email address"
                         name="email"
                         onChange={this.handleChange}
@@ -86,7 +96,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
                         error={this.hasError('password')}
                         fullWidth
                         helperText={
-                            this.hasError('password') ? this.state.formState.errors.password[0] : null
+                            this.hasError('password') ? this.state.formState.errors.password.errorMessage : null
                         }
                         label="Password"
                         name="password"
@@ -99,7 +109,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
                 <Button
                     className={classes.submitButton}
                     color="secondary"
-                    disabled={!this.state.formState.isValid}
+                    disabled={!(this.state.formState.isValid && allAreFilled)}
                     size="large"
                     type="submit"
                     variant="contained"
