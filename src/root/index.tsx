@@ -33,12 +33,12 @@ class Root extends Component<RootProps, RootState> {
         const userInfo: any = getSession('userInfo');
         const clientInfo: any = getSession('clientInfo');
         let userVerified = false;
-        if (userInfo.length) {
+        if (userInfo && userInfo.length) {
             userVerified = true
         }
         this.setState({
             userVerified: userVerified,
-            clientIsSuspended: clientInfo.length && !JSON.parse(clientInfo).active
+            clientIsSuspended: clientInfo && clientInfo.length && !JSON.parse(clientInfo).active
         })
     }
 
