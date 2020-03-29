@@ -1,16 +1,18 @@
 export interface Props {
     handleSwitchLogin: (val: boolean) => void
-    classes?: any
+    classes?: any;
+    loggedin: (loggedIn: boolean, clientId?: string) => void
 }
 
 export interface State {
-    userInfo: UserInfo
+    userError: string
 }
 
 
 export interface LoginFormProps {
-    className?: any
-    classes?: any
+    className?: any;
+    onFormSubmit: (val: UserInfo) => void
+    classes?: any;
 }
 
 interface FormState {

@@ -6,6 +6,7 @@ import {
     TextField,
 } from '@material-ui/core';
 import { FormProps } from './types'
+import { validateEmail, validatePassword } from '../../Utils/utls'
 
 const useStyles = createStyles((theme: Theme) => ({
     root: {},
@@ -47,13 +48,15 @@ class RegisterForm extends React.Component<FormProps, any> {
     handleChange = (event: any) => {
         const name = event.target.name;
         const value = event.target.value;
-        const errors = this.state.formState.errors
+        const errors = this.state.formState.errors;
+        let isValid = true;
         if (name === 'email') {
-            const valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+            const valid = validateEmail(value)
             errors['email'] = !valid ? {
                 error: !valid,
                 errorMessage: 'Email format is not right'
-            } : false
+            } : false;
+            isValid = valid
         }
 
         if (name === 'confirmPassword') {
@@ -62,14 +65,18 @@ class RegisterForm extends React.Component<FormProps, any> {
                 error: err,
                 errorMessage: "Passwords don't match"
             } : false
+
+            isValid = err
         }
 
         if (name === 'password') {
-            const valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(value);
-            errors['password'] = !valid ? {
-                error: !valid,
-                errorMessage: "Password must be atlease 8 characters long and contain upper and lower case characters"
+            const err = validatePassword(value)
+            errors['password'] = !err ? {
+                error: err,
+                errorMessage: "Password should be 8 chars long and contains at least one upper case letter"
             } : false
+
+            isValid = err
         }
         this.setState({
             formState: {
@@ -81,7 +88,8 @@ class RegisterForm extends React.Component<FormProps, any> {
                 touched: {
                     ...this.state.touched,
                     [name]: true
-                }
+                },
+                isValid: isValid
             }
         })
         event.persist();
@@ -97,9 +105,7 @@ class RegisterForm extends React.Component<FormProps, any> {
 
     render() {
         const { className, classes, ...rest } = this.props
-        const allAreFilled = Object.values(this.state.formState.values).length === 6;
-        const nonIsEmpty = Object.values(this.state.formState.values).some((val: any) => val.length === 0);
-        const error = Object.values(this.state.formState.errors).some((val: any) => val !== false)
+        const allAreFilled = Object.values(this.state.formState.values).length === 6 && !Object.values(this.state.formState.values).some((val: any) => val.length === 0);
         return (
             <form
                 className={clsx(classes.root, className)}
@@ -177,7 +183,7 @@ class RegisterForm extends React.Component<FormProps, any> {
                 <Button
                     className={classes.submitButton}
                     color="secondary"
-                    disabled={!(allAreFilled && !nonIsEmpty && !error)}
+                    disabled={!(this.state.formState.isValid && allAreFilled)}
                     size="large"
                     type="submit"
                     variant="contained"

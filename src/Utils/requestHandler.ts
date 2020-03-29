@@ -1,12 +1,17 @@
 import axios from 'axios';
 import _ from 'lodash';
 import uuidv4 from 'uuid/v4';
+import { getUserToken, getClientId } from './utls'
 
 const executeRequest = async (method: string, url: string, data?: any) => {
     return axios({
         method: method,
         url: url,
-        data
+        data,
+        headers: {
+            user_token: getUserToken(),
+            clientId: getClientId()
+        }
     });
 };
 
