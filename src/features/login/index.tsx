@@ -88,7 +88,7 @@ class Login extends React.Component<Props, State> {
         let errorMessage = ''
         if (!response.data.successData.Error.error) {
             const userInfo: any = response.data.successData.Payload.Data[0]
-            setSession('userInfo', JSON.stringify(userInfo))
+            setSession('userInfo', userInfo)
             this.props.loggedin(true, userInfo.clientId)
             errorMessage = ''
         } else {

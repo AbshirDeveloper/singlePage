@@ -1,6 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   Container,
@@ -14,7 +12,11 @@ import Header from './Header';
 import General from './General';
 import Employees from './Employees';
 import Security from './Security';
-
+import { updateEmployees, updatePassword, updateUserInfo, getEmployees, getBranches } from './actions'
+import { UserInfo, Employee } from './types'
+import { getSession } from '../../Utils/utls'
+import SuccessSnackbar from '../../root/SuccessSnackbar';
+import { Props, State } from './types'
 const useStyles = createStyles((theme: Theme) => ({
   root: {
     paddingTop: theme.spacing(3),
@@ -31,18 +33,36 @@ const useStyles = createStyles((theme: Theme) => ({
   }
 }));
 
-const tabs = [
+const employeeTabs = [
+  { value: 'general', label: 'General' },
+  { value: 'security', label: 'Security' }
+];
+
+const adminTabs = [
   { value: 'general', label: 'General' },
   { value: 'employees', label: 'Employees' },
   { value: 'security', label: 'Security' }
 ];
 
-class Settings extends React.Component<any, any> {
+class Settings extends React.Component<Props, State> {
   constructor(props: any) {
     super(props)
     this.state = {
-      currentTab: 'general'
+      currentTab: 'general',
+      employees: [],
+      branches: [],
+      openSnackbar: false,
+      error: false
     }
+  }
+
+  async componentDidMount() {
+    const employees: any = await getEmployees();
+    const branches: any = await getBranches();
+    this.setState({
+      employees: employees.successData.Payload.Data,
+      branches: branches.successData.Payload.Data
+    })
   }
 
   handleTabsChange = (event: any, value: any) => {
@@ -51,17 +71,61 @@ class Settings extends React.Component<any, any> {
     })
   };
 
+  updateEmployee = async (employees: Array<Employee>) => {
+    const response: any = await updateEmployees(employees)
+    if (response.successData.Success) {
+      this.setState({
+        openSnackbar: true,
+        error: false
+      })
+    } else {
+      this.setState({
+        openSnackbar: true,
+        error: true
+      })
+    }
+  }
+
+  updateInfo = async (info: UserInfo) => {
+    const response: any = await updateUserInfo(info)
+
+    if (response.successData.Success) {
+      this.setState({
+        openSnackbar: true,
+        error: false
+      })
+    } else {
+      this.setState({
+        openSnackbar: true,
+        error: true
+      })
+    }
+  }
+
+  updatePassword = async (newPassword: string) => {
+    const response: any = await updatePassword(newPassword)
+    if (response.successData.Success) {
+      this.setState({
+        openSnackbar: true,
+        error: false
+      })
+    } else {
+      this.setState({
+        openSnackbar: true,
+        error: true
+      })
+    }
+  }
+
+  handleSnackbarClose = () => {
+    this.setState({
+      openSnackbar: false
+    })
+  };
   render() {
-    const { classes, profile = {
-      firstName: 'Abshir',
-      lastName: 'Jama',
-      email: '',
-      phone: '',
-      state: '',
-      country: '',
-      isPublic: '',
-      canHire: ''
-    } } = this.props
+    const { classes } = this.props
+    const profile: any = getSession('userInfo');
+    const tabs = !profile.userType ? adminTabs : employeeTabs
     return (
       <Page
         className={classes.root}
@@ -86,11 +150,16 @@ class Settings extends React.Component<any, any> {
           </Tabs>
           <Divider className={classes.divider} />
           <div className={classes.content}>
-            {this.state.currentTab === 'general' && <General profile={profile} />}
-            {this.state.currentTab === 'employees' && <Employees />}
-            {this.state.currentTab === 'security' && <Security />}
+            {this.state.currentTab === 'general' && <General updateInfo={this.updateInfo} profile={profile} />}
+            {this.state.currentTab === 'employees' && <Employees employees={this.state.employees} updateEmployee={this.updateEmployee} />}
+            {this.state.currentTab === 'security' && <Security updatePassword={this.updatePassword} />}
           </div>
         </Container>
+        <SuccessSnackbar
+          onClose={this.handleSnackbarClose}
+          open={this.state.openSnackbar}
+          error={this.state.error}
+        />
       </Page>
     );
 

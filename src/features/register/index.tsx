@@ -11,7 +11,8 @@ import Page from '../../common/Page';
 import RegisterForm from './RegisterForm';
 import Link from '@material-ui/core/Link';
 import { registerUser } from './actions'
-import { newUser } from './types'
+import { newUser, Props, State } from './types'
+import SuccessSnackbar from '../../root/SuccessSnackbar';
 const useStyles = createStyles((theme: Theme) => ({
     root: {
         height: '100%',
@@ -73,17 +74,33 @@ const useStyles = createStyles((theme: Theme) => ({
     }
 }));
 
-class Register extends React.Component<any, any> {
+class Register extends React.Component<Props, State> {
     constructor(props: any) {
         super(props)
         this.state = {
-
+            openSnackbar: false,
+            error: false
         }
     }
 
+    handleSnackbarClose = () => {
+        this.setState({
+            openSnackbar: false
+        })
+    };
     onFormSubmit = async (newUser: newUser) => {
         const response = await registerUser(newUser)
-        console.log(response)
+        if (response.successData.Success) {
+            this.setState({
+                openSnackbar: true,
+                error: false
+            })
+        } else {
+            this.setState({
+                openSnackbar: true,
+                error: true
+            })
+        }
     }
 
     preventDefault = (event: React.SyntheticEvent) => {
@@ -118,6 +135,11 @@ class Register extends React.Component<any, any> {
                         </div>
                     </CardContent>
                 </Card>
+                <SuccessSnackbar
+                    onClose={this.handleSnackbarClose}
+                    open={this.state.openSnackbar}
+                    error={this.state.error}
+                />
             </Page>
         );
     }

@@ -53,7 +53,7 @@ export default function SimpleModal(props: any) {
                 <div style={modalStyle} className={classes.paper}>
                     <ErrorIcon fontSize="inherit" color="error" />
                     <p id="simple-modal-description">
-                        Your company is suspended
+                        You are suspended
                         <br />
                         <Link style={{ fontSize: 15 }} onClick={props.cliearSessionAndShowLoginPage}>
                             Login with different account

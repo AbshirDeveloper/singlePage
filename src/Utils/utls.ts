@@ -8,19 +8,19 @@ export const validatePassword = (password: string) => {
 }
 
 export const setSession = (type: string, value: any) => {
-    sessionStorage[type] = value
+    sessionStorage[type] = JSON.stringify(value)
 }
 
 export const getSession = (type: string) => {
-    return sessionStorage.getItem(type)
+    return JSON.parse(sessionStorage.getItem(type))
 }
 
 export const getUserToken = () => {
     const sessionInfo: any = getSession('userInfo')
-    return JSON.parse(sessionInfo).token
+    return sessionInfo.token
 }
 
 export const getClientId = () => {
     const sessionInfo: any = getSession('userInfo')
-    return JSON.parse(sessionInfo).clientId
+    return sessionInfo.clientId
 }

@@ -29,7 +29,7 @@ class General extends React.Component<GeneralProps> {
           xl={9}
           xs={12}
         >
-          <GeneralSettings profile={profile} />
+          <GeneralSettings updateInfo={this.props.updateInfo} profile={profile} />
         </Grid>
       </Grid>
     );

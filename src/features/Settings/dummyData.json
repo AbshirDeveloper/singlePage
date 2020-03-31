@@ -1,0 +1,37 @@
+{
+    "successData": {
+        "Success": true,
+        "Payload": {
+            "Employees": [
+                {
+                    "id": 1234,
+                    "firstName": "Abshir",
+                    "lastName": "Jama",
+                    "email": "abshirj05@gmail.com",
+                    "phone": "3124093514",
+                    "branch": "Bosaso",
+                    "active": false
+                },
+                {
+                    "id": 1235,
+                    "firstName": "Jama",
+                    "lastName": "Abshir",
+                    "email": "abshir@gmail.com",
+                    "branch": "Hargeisa",
+                    "active": true
+                }
+            ],
+            "Branches": [
+                {
+                    "name": "Hargeisa",
+                    "value": "Hargeisa"
+                },
+                {
+                    "name": "Bosaso",
+                    "value": "Bosaso"
+                }
+            ]
+        },
+        "Error": false
+    }
+}

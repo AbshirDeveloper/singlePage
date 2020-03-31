@@ -4,25 +4,31 @@
         "Payload": {
             "Users": [
                 {
-                    "ID": 1234,
-                    "Name": "Abshir",
-                    "LastName": "Jama",
-                    "Email": "abshirj05@gmail.com",
-                    "Password": "Abshirja34",
+                    "id": 1234,
+                    "firstName": "Abshir",
+                    "lastName": "Jama",
+                    "email": "abshirj05@gmail.com",
+                    "password": "Abshirja34",
+                    "phone": "3124093514",
                     "token": "token",
+                    "active": false,
                     "userType": 1,
                     "clientId": 1,
+                    "branch": "Bosaso",
                     "refresh_token": "refresh_token"
                 },
                 {
-                    "ID": 1235,
-                    "Name": "Jama",
-                    "LastName": "Abshir",
-                    "Email": "abshir@gmail.com",
-                    "Password": "Abshirja34",
+                    "id": 1235,
+                    "firstName": "Jama",
+                    "lastName": "Abshir",
+                    "email": "abshir@gmail.com",
+                    "password": "Abshirja34",
+                    "phone": "3124093514",
                     "token": "token",
+                    "active": true,
                     "userType": 0,
                     "clientId": 1,
+                    "branch": "Hargeisa",
                     "refresh_token": "refresh_token"
                 }
             ],

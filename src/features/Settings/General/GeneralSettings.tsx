@@ -12,7 +12,6 @@ import {
   TextField,
   colors
 } from '@material-ui/core';
-import SuccessSnackbar from './SuccessSnackbar';
 import { GeneralProps, GeneralState } from '../types'
 const useStyles = createStyles((theme: Theme) => ({
   root: {},
@@ -36,10 +35,8 @@ class GeneralSettings extends React.Component<GeneralProps, GeneralState> {
         lastName: '',
         email: '',
         phone: '',
-        state: '',
-        country: '',
-        isPublic: '',
-        canHire: ''
+        branch: '',
+        userType: ''
       },
       openSnackbar: false
     }
@@ -66,19 +63,13 @@ class GeneralSettings extends React.Component<GeneralProps, GeneralState> {
     this.setState({
       openSnackbar: true
     })
-  };
-
-  handleSnackbarClose = () => {
-    this.setState({
-      openSnackbar: false
-    })
+    this.props.updateInfo(this.state.values)
   };
 
   render() {
     const { profile, className, classes, ...rest } = this.props
     return (
       <Card
-        {...rest}
         className={clsx(classes.root, className)}
       >
         <form onSubmit={this.handleSubmit}>
@@ -150,7 +141,7 @@ class GeneralSettings extends React.Component<GeneralProps, GeneralState> {
                   variant="outlined"
                 />
               </Grid>
-              <Grid
+              {!this.state.values.userType ? <Grid
                 item
                 md={6}
                 xs={12}
@@ -158,11 +149,11 @@ class GeneralSettings extends React.Component<GeneralProps, GeneralState> {
                 <TextField
                   fullWidth
                   label="Branch"
-                  name="state"
+                  name="branch"
                   onChange={this.handleChange}
                   select
                   SelectProps={{ native: true }}
-                  value={this.state.values.state}
+                  value={this.state.values.branch}
                   variant="outlined"
                 >
                   {stateOptions.map((state) => (
@@ -174,22 +165,7 @@ class GeneralSettings extends React.Component<GeneralProps, GeneralState> {
                     </option>
                   ))}
                 </TextField>
-              </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
-                <TextField
-                  fullWidth
-                  label="Country"
-                  name="country"
-                  onChange={this.handleChange}
-                  required
-                  value={this.state.values.country}
-                  variant="outlined"
-                />
-              </Grid>
+              </Grid> : ''}
             </Grid>
           </CardContent>
           <Divider />
@@ -203,10 +179,6 @@ class GeneralSettings extends React.Component<GeneralProps, GeneralState> {
           </Button>
           </CardActions>
         </form>
-        <SuccessSnackbar
-          onClose={this.handleSnackbarClose}
-          open={this.state.openSnackbar}
-        />
       </Card>
     );
   }

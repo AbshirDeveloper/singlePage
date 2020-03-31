@@ -4,7 +4,7 @@ import { UserInfo } from './types'
 export const login = (userInfo: UserInfo) => {
     console.log('user login info =>', userInfo)
     const data: any = dummyData
-    const isValid: any = data.successData.Payload.Users.filter((item: any) => item.Email === userInfo.email && item.Password === userInfo.password)
+    const isValid: any = data.successData.Payload.Users.filter((item: any) => item.email === userInfo.email && item.password === userInfo.password)
     let dataToReturn = {
         successData: {
             Success: false,
@@ -39,7 +39,7 @@ export const login = (userInfo: UserInfo) => {
 export const validatClient = (clientId: string) => {
     console.log('validate client =>', clientId)
     const data: any = dummyData
-    const isValid: any = data.successData.Payload.Clients.filter((item: any) => item.clientId === clientId)
+    const isValid: any = data.successData.Payload.Clients.filter((item: any) => item.clientId === clientId);
     let dataToReturn = {
         successData: {
             Success: false,

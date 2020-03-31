@@ -2,10 +2,14 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Snackbar, SnackbarContent, colors } from '@material-ui/core';
 import CheckCircleIcon from '@material-ui/icons/CheckCircleOutlined';
-import { SnackBarProps } from '../types'
+import ErrorIcon from '@material-ui/icons/Error';
+import { SnackBarProps } from '../features/Settings/types'
 const useStyles = makeStyles((theme) => ({
-  content: {
+  success: {
     backgroundColor: colors.green[600]
+  },
+  error: {
+    backgroundColor: colors.red[600]
   },
   message: {
     display: 'flex',
@@ -26,16 +30,17 @@ function SuccessSnackbar(props: SnackBarProps) {
         vertical: 'top',
         horizontal: 'center'
       }}
+      color={props.error ? 'error' : 'primary'}
       autoHideDuration={6000}
       onClose={onClose}
       open={open}
     >
       <SnackbarContent
-        className={classes.content}
+        className={props.error ? classes.error : classes.success}
         message={(
           <span className={classes.message}>
-            <CheckCircleIcon className={classes.icon} />
-            Successfully saved changes!
+            {props.error ? <ErrorIcon className={classes.icon} /> : <CheckCircleIcon className={classes.icon} />}
+            {props.error ? 'An error has occured' : 'Successfully saved changes!'}
           </span>
         )}
         variant="outlined"

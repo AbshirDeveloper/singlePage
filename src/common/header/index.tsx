@@ -5,13 +5,14 @@ import { Props } from './types'
 import Headers from './header'
 class Header extends Component<Props> {
     logout = () => {
-        setSession('userInfo', '');
+        setSession('userInfo', {});
+        setSession('clientInfo', {});
         this.props.loggedin(false)
     }
     render() {
         return (
             <div>
-                <Headers logout={this.logout} />
+                <Headers onUserInfoIconClick={this.props.onUserInfoIconClick} logout={this.logout} />
             </div>
         );
     }

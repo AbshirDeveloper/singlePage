@@ -15,7 +15,8 @@ class Root extends Component<RootProps, RootState> {
         this.state = {
             userVerified: false,
             showLogin: true,
-            clientIsSuspended: false
+            clientIsSuspended: false,
+            renderUserInfo: false
         }
     }
 
@@ -33,12 +34,15 @@ class Root extends Component<RootProps, RootState> {
         const userInfo: any = getSession('userInfo');
         const clientInfo: any = getSession('clientInfo');
         let userVerified = false;
-        if (userInfo && userInfo.length) {
+        let userIsActive = false;
+        if (userInfo && Object.keys(userInfo).length) {
             userVerified = true
+            userIsActive = userInfo.active
         }
+        let clientSupspended = clientInfo && clientInfo.active && userIsActive
         this.setState({
             userVerified: userVerified,
-            clientIsSuspended: clientInfo && clientInfo.length && !JSON.parse(clientInfo).active
+            clientIsSuspended: !clientSupspended
         })
     }
 
@@ -47,17 +51,19 @@ class Root extends Component<RootProps, RootState> {
             userVerified: loggedIn,
             showLogin: !loggedIn
         })
+        const userInfo: any = getSession('userInfo');
 
         if (loggedIn == true) {
             validatClient(clientId).then(response => {
                 const clientInfo = response.data.successData.Payload.Data[0]
-                if (!clientInfo.active) {
-                    this.setState({
-                        clientIsSuspended: true
-                    })
-                }
-                setSession('clientInfo', JSON.stringify(clientInfo))
+                // if (!clientInfo.active) {
+                this.setState({
+                    clientIsSuspended: !(clientInfo.active && userInfo.active)
+                })
+                // }
+                setSession('clientInfo', clientInfo)
             })
+            // this.isUserValidated()
         }
     }
 
@@ -80,10 +86,17 @@ class Root extends Component<RootProps, RootState> {
         return <InActiveClient cliearSessionAndShowLoginPage={this.cliearSessionAndShowLoginPage} open={true} />
     }
 
+    onUserInfoIconClick = (iconClickd: string) => {
+        const viewToRender = iconClickd === 'userInfo' ? true : false
+        this.setState({
+            renderUserInfo: viewToRender
+        })
+    }
+
     renderApplication = () => {
         return <React.Fragment>
-            <Header loggedin={this.loggedIn} />
-            <UserSettings />
+            <Header onUserInfoIconClick={this.onUserInfoIconClick} loggedin={this.loggedIn} />
+            {this.state.renderUserInfo ? <UserSettings /> : <SinglePage />}
         </React.Fragment>
     }
 

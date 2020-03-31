@@ -1,9 +1,11 @@
 export interface Props {
     handleSwitchLogin: (val: boolean) => void
+    classes?: any
 }
 
 export interface State {
-
+    openSnackbar: boolean;
+    error: boolean
 }
 export interface newUser {
     id: number,
