@@ -9,12 +9,20 @@ export interface State {
     rowData: any[];
     actionItems: any;
     showHistoryDialog: boolean;
-    currentView: string
+    currentView: string;
+    selectedData: any[];
+    default: any;
+    defaultActionItems: any;
+    currentSubView: string;
+    noGrid: boolean
 }
 
 export interface NavigationProps {
     classes?: any
-    pages: Array<Page>
+    pages: Array<Page>;
+    default: any;
+    makePageDefault: (val: any) => void;
+    handleChangeMainView: (val: any) => void
 }
 
 interface Page {
@@ -24,5 +32,6 @@ interface Page {
 }
 
 export interface NavigationState {
-    activeTab: string
+    activeTab: string;
+    activeView: any
 }

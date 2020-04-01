@@ -133,13 +133,13 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                 <HomeIcon />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip placement="bottom" title="Notifications">
+                        {/* <Tooltip placement="bottom" title="Notifications">
                             <IconButton onClick={this.handleOpenNotificaions} ref={this.asignAnchorElement} aria-label="show 17 new notifications" color="inherit">
                                 <Badge badgeContent={this.state.notifications.length} color="secondary">
                                     <NotificationsIcon />
                                 </Badge>
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
                         <Tooltip placement="bottom" title="Account">
                             <IconButton
                                 edge="end"

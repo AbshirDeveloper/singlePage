@@ -13,63 +13,64 @@ export const getPages = async () => {
     }
 }
 
-export const getPageActionData = async (page: string) => {
+export const getPageActionData = async (page: string, subView: string) => {
     try {
-        const response = await Api.getPageActionData(page)
+        const response = await Api.getPageActionData(page, subView)
         return response
     } catch (error) {
         throw error
     }
 }
 
-export const getData = async () => {
+export const getData = async (view: string, subView: string) => {
     try {
-        const response = await Api.getData()
+        const response = await Api.getData(view, subView)
         return response
     } catch (error) {
         throw error
     }
 }
 
-export const getHistoryData = async (view: string) => {
+export const getHistoryData = async (view: string, subView: string) => {
     try {
-        const response = await Api.getHistoryData(view)
+        const response = await Api.getHistoryData(view, subView)
         return response
     } catch (error) {
         throw error
     }
 }
 
-export const getPageData = async () => {
+export const editData = async (item: any, view: string, subView: string) => {
     try {
-        const response = await Api.getPageData()
+        const response = await Api.editData(item, view, subView)
         return response
     } catch (error) {
         throw error
     }
 }
 
-export const editData = async (item: any) => {
+export const deleteData = async (item: any, view: string, subView: string) => {
     try {
-        const response = await Api.editData(item)
+        const response = await Api.deleteData(item, view, subView)
         return response
     } catch (error) {
         throw error
     }
 }
 
-export const deleteData = async (item: any) => {
+export const addItem = async (item: any, view: string, subView: string) => {
     try {
-        const response = await Api.deleteData(item)
+        const response = await Api.addItem(item, view, subView)
         return response
     } catch (error) {
         throw error
     }
 }
 
-export const addItem = async (item: any) => {
+
+export const makeViewDefault = async (view: string) => {
     try {
-        const response = await Api.addItem(item)
+        const response = await Api.makePageDefault(view)
         return response
     } catch (error) {
         throw error

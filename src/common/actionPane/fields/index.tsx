@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-
+import { Props, State } from './types'
 
 const styles = createStyles({
     actionButton: {
@@ -47,7 +46,7 @@ const styles = createStyles({
     }
 });
 
-class Add extends Component<any, any> {
+class Add extends Component<Props, State> {
     constructor(props) {
         super(props)
     }
@@ -56,7 +55,6 @@ class Add extends Component<any, any> {
         const { classes } = this.props;
         const value = this.props.selectedFields[editFieldInfo.Name] || ''
 
-        const showMultiline = this.props.editParams && this.props.editParams.params.showTextFieldsInMultiline;
         return (
             <TextField
                 className={classes.textFiled}
@@ -66,8 +64,6 @@ class Add extends Component<any, any> {
                 onChange={this.props.handleOnChange}
                 value={value}
                 required={editFieldInfo.Required}
-                multiline={showMultiline}
-                rowsMax={showMultiline ? '6' : '1'}
                 title={this.props.selectedFields[editFieldInfo.Name]}
             />
         );
@@ -91,7 +87,12 @@ class Add extends Component<any, any> {
         );
     };
     getSelectField = (key: number, editFieldInfo: any) => {
-        const value = this.props.selectedFields[editFieldInfo.Name] || ''
+        let value = '';
+        if (editFieldInfo.Name === "Views" && !this.props.selectedFields[editFieldInfo.Name]) {
+            value = this.props.currentSubView
+        } else {
+            value = this.props.selectedFields[editFieldInfo.Name] || ''
+        }
         return (
             <FormControl key={key} className={this.props.classes.dropDownField}>
                 <InputLabel id="demo-simple-select-label">{editFieldInfo.Name}</InputLabel>
@@ -110,7 +111,6 @@ class Add extends Component<any, any> {
             </FormControl>
         );
     };
-
     getDateField = (key: number, editFieldInfo: any) => {
         const { classes } = this.props;
         return (
@@ -128,10 +128,6 @@ class Add extends Component<any, any> {
             />
         );
     };
-
-    renderField = (field: any) => {
-
-    }
 
     renderForm = () => {
         return this.props.fields.map((item: any, index: any) => {

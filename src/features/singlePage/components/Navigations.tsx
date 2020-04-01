@@ -11,6 +11,9 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import WebAssetIcon from '@material-ui/icons/WebAsset';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import StarIcon from '@material-ui/icons/Star';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+
 const drawerWidth = 200;
 
 const useStyles = createStyles((theme: Theme) => ({
@@ -57,14 +60,30 @@ class Navigations extends Component<NavigationProps, NavigationState> {
     constructor(props: any) {
         super(props)
         this.state = {
-            activeTab: ''
+            activeTab: '',
+            activeView: {}
         }
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            let tab: any = "";
+            Object.keys(this.props.default).forEach(item => {
+                if (this.props.default[item]) {
+                    tab = item
+                }
+            })
+            this.setState({
+                activeTab: tab
+            })
+        }, 0)
     }
 
     navigationClicked = (tab: string) => {
         this.setState({
             activeTab: tab
         })
+        this.props.handleChangeMainView(tab)
     }
     render() {
         const { classes } = this.props
@@ -81,9 +100,22 @@ class Navigations extends Component<NavigationProps, NavigationState> {
                 </div>
                 <List>
                     {this.props.pages.map((page, index) => (
-                        <ListItem style={{ backgroundColor: this.state.activeTab === page.name ? 'rgb(164, 190, 249)' : '' }} onClick={() => this.navigationClicked(page.name)} button key={page.name}>
+                        <ListItem style={{ backgroundColor: this.state.activeTab === page.name ? 'rgb(164, 190, 249)' : '' }} onClick={() => this.navigationClicked(page.name)} button key={page.name} onMouseEnter={(event: any) => {
+                            this.setState({
+                                activeView: {
+                                    [page.name]: true
+                                }
+                            })
+                        }} onMouseLeave={(event: any) => {
+                            this.setState({
+                                activeView: {
+                                    [page.name]: false
+                                }
+                            })
+                        }}>
                             <ListItemIcon>{icons[page.icon]}</ListItemIcon>
                             <ListItemText primary={page.name} />
+                            {this.props.default[page.name] || this.state.activeView[page.name] ? <StarBorderIcon onClick={() => this.props.makePageDefault(page.name)} fontSize="small" color="primary" /> : ''}
                         </ListItem>
                     ))}
                 </List>

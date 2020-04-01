@@ -4,10 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Navigation from './components/Navigations'
 import Typography from '@material-ui/core/Typography';
 import { Props, State } from './types'
-import { getPages, getPageActionData, getData, getHistoryData } from './actions'
+import { getPages, getPageActionData, getData, getHistoryData, editData, addItem, makeViewDefault, deleteData } from './actions'
 import AgGrid from '../../common/dataGrid'
 import ActionPane from '../../common/actionPane'
 import History from '../../common/actionPane/viewHistory'
+import MyCart from './components/Cart'
 const useStyles = createStyles((theme: Theme) => ({
     root: {
         display: 'flex',
@@ -25,6 +26,7 @@ const useStyles = createStyles((theme: Theme) => ({
 );
 
 class SinglePage extends React.Component<Props, State> {
+    griApi: any
     constructor(props: any) {
         super(props)
         this.state = {
@@ -56,8 +58,15 @@ class SinglePage extends React.Component<Props, State> {
 
                     ],
                     IsEntitled: false,
-
                     onSubmit: this.onDeleteSubmit
+                },
+                Search: {
+                    Name: 'Search',
+                    Fields: [
+
+                    ],
+                    IsEntitled: false,
+                    onSubmit: this.onSearchSubmit
                 },
                 ReadDocument: {
                     Name: 'DocumentUpload',
@@ -77,11 +86,134 @@ class SinglePage extends React.Component<Props, State> {
                     onSubmit: this.onViewHistoryClicked
                 }
             },
-            currentView: 'FirstView',
-            showHistoryDialog: false
+            defaultActionItems: {
+                Add: {
+                    Name: 'Add',
+                    Fields: [
+
+                    ],
+                    IsEntitled: false,
+                    onSubmit: this.onAddSubmit
+                },
+                Edit: {
+                    Name: 'Edit',
+                    Fields: [
+
+                    ],
+                    IsEntitled: false,
+
+                    onSubmit: this.onEditSumbit
+                },
+                Delete: {
+                    Name: 'Delete',
+                    Fields: [
+
+                    ],
+                    IsEntitled: false,
+                    onSubmit: this.onDeleteSubmit
+                },
+                Search: {
+                    Name: 'Search',
+                    Fields: [
+
+                    ],
+                    IsEntitled: false,
+                    onSubmit: this.onSearchSubmit
+                },
+                ReadDocument: {
+                    Name: 'DocumentUpload',
+                    Fields: [
+
+                    ],
+                    IsEntitled: false,
+
+                    onSubmit: this.onFileUpload
+                },
+                ViewHistory: {
+                    Name: 'ViewHistory',
+                    Fields: [
+
+                    ],
+                    IsEntitled: false,
+                    onSubmit: this.onViewHistoryClicked
+                }
+            },
+            currentView: '',
+            showHistoryDialog: false,
+            selectedData: [],
+            default: {},
+            currentSubView: '',
+            noGrid: false
         }
     }
 
+    onSearchSubmit = (data: any) => {
+        this.setState({
+            currentSubView: data.Views
+        })
+        if (data.Views === 'Cart' || (data.Views === undefined && this.state.currentSubView === 'Cart')) {
+            this.setState({
+                noGrid: true
+            })
+        } else {
+            this.setState({
+                noGrid: false
+            })
+        }
+        this.callsHandler(this.state.currentView, data.Views)
+        return true
+    }
+
+    onAddSubmit = async (data: any) => {
+        let formattedData: any = {}
+        Object.keys(data).forEach(item => {
+            formattedData[item.toLowerCase()] = data[item]
+        })
+        const response: any = await addItem(formattedData, this.state.currentSubView, this.state.currentSubView);
+        console.log('add=>', data)
+        if (response.data.successData.Success) {
+            this.setState({
+                rowData: response.data.successData.Payload.Data
+            })
+            return true
+        } else {
+            return false
+        }
+    }
+
+    onEditSumbit = async (data: any) => {
+        let formattedData: any = {}
+        Object.keys(data).forEach(item => {
+            formattedData[item.toLowerCase()] = data[item]
+        })
+        const response: any = await editData(formattedData, this.state.currentSubView, this.state.currentSubView);
+        console.log('edit=>', data)
+        if (response.data.successData.Success) {
+            this.setState({
+                rowData: response.data.successData.Payload.Data,
+                selectedData: []
+            })
+            this.griApi && this.griApi.deselectAll()
+
+            return true
+        } else {
+            return false
+        }
+    }
+
+    handleChangeMainView = (mainView: string) => {
+        const subView: any = this.state.pages.filter((page: any) => page.name === mainView)[0]
+        if (subView.subViews[0].name === 'Cart') {
+            this.setState({
+                noGrid: true
+            })
+        } else {
+            this.setState({
+                noGrid: false
+            })
+        }
+        this.callsHandler(mainView, subView.subViews)
+    }
 
     onViewHistoryClicked = () => {
         this.setState({
@@ -90,12 +222,17 @@ class SinglePage extends React.Component<Props, State> {
     }
 
     renderActions = (actions: any) => {
+        this.setState({
+            actionItems: {
+                ...this.state.defaultActionItems,
+                Search: this.state.actionItems.Search
+            }
+        })
         const addAction = actions.filter(element => element.Name === 'Add')
         const editAction = actions.filter(element => element.Name === 'Edit')
         const deleteAction = actions.filter(element => element.Name === 'Delete')
         const fileUploadAction = actions.filter(element => element.Name === 'ReadDocument')
         const viewHistory = actions.filter(element => element.Name === 'ViewHistory')
-
 
         if (addAction.length) {
             this.setState({
@@ -117,7 +254,7 @@ class SinglePage extends React.Component<Props, State> {
                     Edit: {
                         ...this.state.actionItems.Edit,
                         IsEntitled: true,
-                        Fields: []
+                        Fields: addAction[0].Fields
                     }
                 }
             })
@@ -164,17 +301,18 @@ class SinglePage extends React.Component<Props, State> {
 
     }
 
-    onAddSubmit = (data: any) => {
-        console.log('add=>', data)
-    }
-
-    onEditSumbit = (data: any) => {
-        console.log('edit=>', data)
-
-    }
-
-    onDeleteSubmit = (data: any) => {
-        console.log('delete=>', data)
+    onDeleteSubmit = async () => {
+        const response: any = await deleteData(this.state.selectedData, this.state.currentSubView, this.state.currentSubView)
+        console.log('delete=>', this.state.selectedData)
+        if (response.data.successData.Success) {
+            this.setState({
+                rowData: response.data.successData.Payload.Data,
+                selectedData: []
+            })
+            return true
+        } else {
+            return false
+        }
     }
 
     onFileUpload = (data: any) => {
@@ -202,23 +340,81 @@ class SinglePage extends React.Component<Props, State> {
         }
     }
 
-    async componentDidMount() {
-        const pages: any = await getPages();
-        const defaultPage = pages.successData.Payload.Data.filter(page => page.default)[0]
-        const actionData: any = await getPageActionData(defaultPage.name)
-        const gridData: any = await getData();
+    callsHandler = async (view: string, subView: string | any[] | undefined) => {
+        let subV = typeof subView === 'string' ? subView : subView === undefined ? this.state.currentSubView : subView[0].name
+        const actionData: any = await getPageActionData(view, subV)
+        const gridData: any = await getData(view, subV);
         this.renderActions(actionData.successData.Payload.Data)
         this.setState({
-            pages: pages.successData.Payload.Data,
             actionData: actionData.successData.Payload.Data,
             rowData: gridData.data.successData.Payload.Data,
-            columnDefs: this.enhanceColumns(true, gridData.data.successData.Payload.ColumnDefs),
+            columnDefs: !!gridData.data.successData.Payload.ColumnDefs.length ? this.enhanceColumns(true, gridData.data.successData.Payload.ColumnDefs) : [],
+            currentSubView: subV,
+            currentView: view
+        })
+        typeof subView !== 'string' && subView !== undefined && setTimeout(() => {
+            this.handleSetSearchParams(subView)
+        }, 0)
+    }
 
+    handleSetSearchParams = (subView: any) => {
+        this.setState({
+            actionItems: {
+                ...this.state.actionItems,
+                Search: {
+                    ...this.state.actionItems.Search,
+                    IsEntitled: !!subView.length,
+                    Fields: [
+                        {
+                            Name: "Views",
+                            DisplayName: "Views",
+                            Type: "string",
+                            Required: false,
+                            FieldType: "dropDown",
+                            DataSource: subView.map(view => {
+                                return {
+                                    Name: view.name,
+                                    Value: view.name
+                                }
+                            })
+                        }
+                    ]
+                }
+            }
         })
     }
 
+    async componentDidMount() {
+        const pages: any = await getPages();
+        let defaultPage: any = {};
+        pages.successData.Payload.Data.forEach(page => {
+            if (page.default) {
+                defaultPage = page
+            }
+        })
+        !Object.keys(defaultPage).length && (defaultPage = pages.successData.Payload.Data[0])
+        this.setState({
+            default: {
+                [defaultPage.name]: true,
+            },
+            pages: pages.successData.Payload.Data,
+            currentView: defaultPage.name
+        })
+
+        if (defaultPage.subViews[0].name === 'Cart') {
+            this.setState({
+                noGrid: true
+            })
+        } else {
+            this.setState({
+                noGrid: false
+            })
+        }
+        this.callsHandler(defaultPage.name, defaultPage.subViews)
+    }
+
     fetchHistoryData = async () => {
-        const response = await getHistoryData(this.state.currentView)
+        const response = await getHistoryData(this.state.currentView, this.state.currentSubView)
         return response
     }
 
@@ -229,7 +425,25 @@ class SinglePage extends React.Component<Props, State> {
     }
 
     onSelectionChanged = (selectedData: any) => {
+        this.setState({
+            selectedData: selectedData.api.getSelectedRows()
+        })
         // console.log(selectedData)
+    }
+
+    makePageDefault = async (view: any) => {
+        const response: any = await makeViewDefault(view);
+        if (response.data.successData.Success) {
+            this.setState({
+                default: {
+                    [view]: true
+                }
+            })
+        }
+    }
+
+    returnGridApi = (gridApi: any) => {
+        this.griApi = gridApi
     }
 
     render() {
@@ -237,10 +451,17 @@ class SinglePage extends React.Component<Props, State> {
         return (
             <div className={classes.root}>
                 <CssBaseline />
-                <Navigation pages={this.state.pages} />
+                <Navigation handleChangeMainView={this.handleChangeMainView} makePageDefault={this.makePageDefault} default={this.state.default} pages={this.state.pages} />
                 <main className={classes.content}>
-                    <ActionPane actionItems={this.state.actionItems} />
-                    <AgGrid onSelectionChanged={this.onSelectionChanged} rowData={this.state.rowData} columnDefs={this.state.columnDefs} />
+                    <ActionPane views={{
+                        mainView: this.state.currentView,
+                        subView: this.state.currentSubView
+                    }} selectedData={this.state.selectedData} actionItems={this.state.actionItems} />
+
+                    {!this.state.noGrid ? <AgGrid
+                        height={812}
+                        returnGridApi={this.returnGridApi}
+                        onSelectionChanged={this.onSelectionChanged} rowData={this.state.rowData} columnDefs={this.state.columnDefs} /> : <MyCart />}
                 </main>
                 {this.state.showHistoryDialog && (
                     <History

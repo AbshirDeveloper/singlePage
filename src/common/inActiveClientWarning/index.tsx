@@ -30,7 +30,12 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function SimpleModal(props: any) {
+interface Props {
+    open: boolean
+    cliearSessionAndShowLoginPage: (val: any) => void
+}
+
+export default function SimpleModal(props: Props) {
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
@@ -59,7 +64,7 @@ export default function SimpleModal(props: any) {
                             Login with different account
                         </Link>
                     </p>
-                    <SimpleModal />
+                    {/* <SimpleModal /> */}
                 </div>
             </Modal>
         </div>

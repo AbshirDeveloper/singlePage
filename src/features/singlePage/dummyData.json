@@ -1,795 +1,388 @@
 {
     "successData": {
         "Success": true,
-        "Payload": {
-            "ColumnsInfo": [
-                {
-                    "field": "athlete",
-                    "filter": "agTextColumnFilter"
-                },
-                {
-                    "field": "country",
-                    "filter": "agTextColumnFilter"
-                },
-                {
-                    "field": "year",
-                    "filter": "agTextColumnFilter"
-                },
-                {
-                    "field": "sport",
-                    "filter": "agTextColumnFilter"
+        "Pages": [
+            {
+                "name": "Sales",
+                "default": true,
+                "icon": "cart",
+                "data": {
+                    "Cart": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [
+                            {
+                                "Name": "Add",
+                                "Fields": [
+                                    {
+                                        "Name": "Athlete",
+                                        "DisplayName": "Athlete",
+                                        "Type": "string",
+                                        "Required": false,
+                                        "FieldType": "simple",
+                                        "DataSource": []
+                                    },
+                                    {
+                                        "Name": "Country",
+                                        "DisplayName": "Country",
+                                        "Type": "string",
+                                        "Required": false,
+                                        "FieldType": "dropDown",
+                                        "DataSource": [
+                                            {
+                                                "Name": "United States",
+                                                "Value": "United States",
+                                                "DependentFields": []
+                                            },
+                                            {
+                                                "Name": "Russia",
+                                                "Value": "Russia",
+                                                "DependentFields": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Name": "Year",
+                                        "DisplayName": "Year",
+                                        "Type": "string",
+                                        "Required": false,
+                                        "FieldType": "dropDown",
+                                        "DataSource": [
+                                            {
+                                                "Name": "2004",
+                                                "Value": "2004",
+                                                "DependentFields": []
+                                            },
+                                            {
+                                                "Name": "2007",
+                                                "Value": "2007",
+                                                "DependentFields": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Name": "Sport",
+                                        "DisplayName": "Sport",
+                                        "Type": "string",
+                                        "Required": false,
+                                        "FieldType": "dropDown",
+                                        "DataSource": [
+                                            {
+                                                "Name": "Swimming",
+                                                "Value": "Swimming",
+                                                "DependentFields": []
+                                            },
+                                            {
+                                                "Name": "Gymnastics",
+                                                "Value": "Gymnastics",
+                                                "DependentFields": []
+                                            },
+                                            {
+                                                "Name": "Speed Skating",
+                                                "Value": "Speed Skating",
+                                                "DependentFields": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Name": "Active",
+                                        "DisplayName": "Active",
+                                        "Type": "bool",
+                                        "Required": false,
+                                        "FieldType": "switch",
+                                        "DataSource": []
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Edit",
+                                "Fields": [
+                                    {
+                                        "Name": "Athlete",
+                                        "DisplayName": "Athlete",
+                                        "Type": "string",
+                                        "Required": false,
+                                        "FieldType": "simple",
+                                        "DataSource": []
+                                    },
+                                    {
+                                        "Name": "Country",
+                                        "DisplayName": "Country",
+                                        "Type": "string",
+                                        "Required": false,
+                                        "FieldType": "dropDown",
+                                        "DataSource": [
+                                            {
+                                                "Name": "United States",
+                                                "Value": "United States",
+                                                "DependentFields": []
+                                            },
+                                            {
+                                                "Name": "Russia",
+                                                "Value": "Russia",
+                                                "DependentFields": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Name": "Year",
+                                        "DisplayName": "Year",
+                                        "Type": "string",
+                                        "Required": false,
+                                        "FieldType": "dropDown",
+                                        "DataSource": [
+                                            {
+                                                "Name": "2004",
+                                                "Value": "2004",
+                                                "DependentFields": []
+                                            },
+                                            {
+                                                "Name": "2007",
+                                                "Value": "2007",
+                                                "DependentFields": []
+                                            },
+                                            {
+                                                "Name": "2008",
+                                                "Value": "2008",
+                                                "DependentFields": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Name": "Sport",
+                                        "DisplayName": "Sport",
+                                        "Type": "string",
+                                        "Required": false,
+                                        "FieldType": "dropDown",
+                                        "DataSource": [
+                                            {
+                                                "Name": "Swimming",
+                                                "Value": "Swimming",
+                                                "DependentFields": []
+                                            },
+                                            {
+                                                "Name": "Gymnastics",
+                                                "Value": "Gymnastics",
+                                                "DependentFields": []
+                                            },
+                                            {
+                                                "Name": "Speed Skating",
+                                                "Value": "Speed Skating",
+                                                "DependentFields": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Name": "Active",
+                                        "DisplayName": "Active",
+                                        "Type": "bool",
+                                        "Required": false,
+                                        "FieldType": "switch",
+                                        "DataSource": []
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Delete"
+                            },
+                            {
+                                "Name": "AddDocument"
+                            },
+                            {
+                                "Name": "RemoveDocument"
+                            },
+                            {
+                                "Name": "ReadDocument"
+                            },
+                            {
+                                "Name": "ViewHistory"
+                            }
+                        ],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Transactions": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Ending Products": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    }
                 }
-            ],
-            "GridData": [
-                {
-                    "athlete": "Michael Phelps",
-                    "age": 23,
-                    "country": "United States",
-                    "year": 2008,
-                    "date": "24/08/2008",
-                    "sport": "Swimming",
-                    "gold": 8,
-                    "silver": 0,
-                    "bronze": 0,
-                    "total": 8
-                },
-                {
-                    "athlete": "Michael Phelps",
-                    "age": 19,
-                    "country": "United States",
-                    "year": 2004,
-                    "date": "29/08/2004",
-                    "sport": "Swimming",
-                    "gold": 6,
-                    "silver": 0,
-                    "bronze": 2,
-                    "total": 8
-                },
-                {
-                    "athlete": "Michael Phelps",
-                    "age": 27,
-                    "country": "United States",
-                    "year": 2012,
-                    "date": "12/08/2012",
-                    "sport": "Swimming",
-                    "gold": 4,
-                    "silver": 2,
-                    "bronze": 0,
-                    "total": 6
-                },
-                {
-                    "athlete": "Natalie Coughlin",
-                    "age": 25,
-                    "country": "United States",
-                    "year": 2008,
-                    "date": "24/08/2008",
-                    "sport": "Swimming",
-                    "gold": 1,
-                    "silver": 2,
-                    "bronze": 3,
-                    "total": 6
-                },
-                {
-                    "athlete": "Aleksey Nemov",
-                    "age": 24,
-                    "country": "Russia",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Gymnastics",
-                    "gold": 2,
-                    "silver": 1,
-                    "bronze": 3,
-                    "total": 6
-                },
-                {
-                    "athlete": "Alicia Coutts",
-                    "age": 24,
-                    "country": "Australia",
-                    "year": 2012,
-                    "date": "12/08/2012",
-                    "sport": "Swimming",
-                    "gold": 1,
-                    "silver": 3,
-                    "bronze": 1,
-                    "total": 5
-                },
-                {
-                    "athlete": "Missy Franklin",
-                    "age": 17,
-                    "country": "United States",
-                    "year": 2012,
-                    "date": "12/08/2012",
-                    "sport": "Swimming",
-                    "gold": 4,
-                    "silver": 0,
-                    "bronze": 1,
-                    "total": 5
-                },
-                {
-                    "athlete": "Ryan Lochte",
-                    "age": 27,
-                    "country": "United States",
-                    "year": 2012,
-                    "date": "12/08/2012",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 2,
-                    "bronze": 1,
-                    "total": 5
-                },
-                {
-                    "athlete": "Allison Schmitt",
-                    "age": 22,
-                    "country": "United States",
-                    "year": 2012,
-                    "date": "12/08/2012",
-                    "sport": "Swimming",
-                    "gold": 3,
-                    "silver": 1,
-                    "bronze": 1,
-                    "total": 5
-                },
-                {
-                    "athlete": "Natalie Coughlin",
-                    "age": 21,
-                    "country": "United States",
-                    "year": 2004,
-                    "date": "29/08/2004",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 2,
-                    "bronze": 1,
-                    "total": 5
-                },
-                {
-                    "athlete": "Ian Thorpe",
-                    "age": 17,
-                    "country": "Australia",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Swimming",
-                    "gold": 3,
-                    "silver": 2,
-                    "bronze": 0,
-                    "total": 5
-                },
-                {
-                    "athlete": "Dara Torres",
-                    "age": 33,
-                    "country": "United States",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 0,
-                    "bronze": 3,
-                    "total": 5
-                },
-                {
-                    "athlete": "Cindy Klassen",
-                    "age": 26,
-                    "country": "Canada",
-                    "year": 2006,
-                    "date": "26/02/2006",
-                    "sport": "Speed Skating",
-                    "gold": 1,
-                    "silver": 2,
-                    "bronze": 2,
-                    "total": 5
-                },
-                {
-                    "athlete": "Nastia Liukin",
-                    "age": 18,
-                    "country": "United States",
-                    "year": 2008,
-                    "date": "24/08/2008",
-                    "sport": "Gymnastics",
-                    "gold": 1,
-                    "silver": 3,
-                    "bronze": 1,
-                    "total": 5
-                },
-                {
-                    "athlete": "Marit Bjørgen",
-                    "age": 29,
-                    "country": "Norway",
-                    "year": 2010,
-                    "date": "28/02/2010",
-                    "sport": "Cross Country Skiing",
-                    "gold": 3,
-                    "silver": 1,
-                    "bronze": 1,
-                    "total": 5
-                },
-                {
-                    "athlete": "Sun Yang",
-                    "age": 20,
-                    "country": "China",
-                    "year": 2012,
-                    "date": "12/08/2012",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 1,
-                    "bronze": 1,
-                    "total": 4
-                },
-                {
-                    "athlete": "Kirsty Coventry",
-                    "age": 24,
-                    "country": "Zimbabwe",
-                    "year": 2008,
-                    "date": "24/08/2008",
-                    "sport": "Swimming",
-                    "gold": 1,
-                    "silver": 3,
-                    "bronze": 0,
-                    "total": 4
-                },
-                {
-                    "athlete": "Libby Lenton-Trickett",
-                    "age": 23,
-                    "country": "Australia",
-                    "year": 2008,
-                    "date": "24/08/2008",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 1,
-                    "bronze": 1,
-                    "total": 4
-                },
-                {
-                    "athlete": "Ryan Lochte",
-                    "age": 24,
-                    "country": "United States",
-                    "year": 2008,
-                    "date": "24/08/2008",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 0,
-                    "bronze": 2,
-                    "total": 4
-                },
-                {
-                    "athlete": "Inge de Bruijn",
-                    "age": 30,
-                    "country": "Netherlands",
-                    "year": 2004,
-                    "date": "29/08/2004",
-                    "sport": "Swimming",
-                    "gold": 1,
-                    "silver": 1,
-                    "bronze": 2,
-                    "total": 4
-                },
-                {
-                    "athlete": "Petria Thomas",
-                    "age": 28,
-                    "country": "Australia",
-                    "year": 2004,
-                    "date": "29/08/2004",
-                    "sport": "Swimming",
-                    "gold": 3,
-                    "silver": 1,
-                    "bronze": 0,
-                    "total": 4
-                },
-                {
-                    "athlete": "Ian Thorpe",
-                    "age": 21,
-                    "country": "Australia",
-                    "year": 2004,
-                    "date": "29/08/2004",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 1,
-                    "bronze": 1,
-                    "total": 4
-                },
-                {
-                    "athlete": "Inge de Bruijn",
-                    "age": 27,
-                    "country": "Netherlands",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Swimming",
-                    "gold": 3,
-                    "silver": 1,
-                    "bronze": 0,
-                    "total": 4
-                },
-                {
-                    "athlete": "Gary Hall Jr.",
-                    "age": 25,
-                    "country": "United States",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 1,
-                    "bronze": 1,
-                    "total": 4
-                },
-                {
-                    "athlete": "Michael Klim",
-                    "age": 23,
-                    "country": "Australia",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 2,
-                    "bronze": 0,
-                    "total": 4
-                },
-                {
-                    "athlete": "Susie O'Neill",
-                    "age": 27,
-                    "country": "Australia",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Swimming",
-                    "gold": 1,
-                    "silver": 3,
-                    "bronze": 0,
-                    "total": 4
-                },
-                {
-                    "athlete": "Jenny Thompson",
-                    "age": 27,
-                    "country": "United States",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Swimming",
-                    "gold": 3,
-                    "silver": 0,
-                    "bronze": 1,
-                    "total": 4
-                },
-                {
-                    "athlete": "Pieter van den Hoogenband",
-                    "age": 22,
-                    "country": "Netherlands",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Swimming",
-                    "gold": 2,
-                    "silver": 0,
-                    "bronze": 2,
-                    "total": 4
-                },
-                {
-                    "athlete": "An Hyeon-Su",
-                    "age": 20,
-                    "country": "South Korea",
-                    "year": 2006,
-                    "date": "26/02/2006",
-                    "sport": "Short-Track Speed Skating",
-                    "gold": 3,
-                    "silver": 0,
-                    "bronze": 1,
-                    "total": 4
-                },
-                {
-                    "athlete": "Aliya Mustafina",
-                    "age": 17,
-                    "country": "Russia",
-                    "year": 2012,
-                    "date": "12/08/2012",
-                    "sport": "Gymnastics",
-                    "gold": 1,
-                    "silver": 1,
-                    "bronze": 2,
-                    "total": 4
-                },
-                {
-                    "athlete": "Shawn Johnson",
-                    "age": 16,
-                    "country": "United States",
-                    "year": 2008,
-                    "date": "24/08/2008",
-                    "sport": "Gymnastics",
-                    "gold": 1,
-                    "silver": 3,
-                    "bronze": 0,
-                    "total": 4
-                },
-                {
-                    "athlete": "Dmitry Sautin",
-                    "age": 26,
-                    "country": "Russia",
-                    "year": 2000,
-                    "date": "01/10/2000",
-                    "sport": "Diving",
-                    "gold": 1,
-                    "silver": 1,
-                    "bronze": 2,
-                    "total": 4
+            },
+            {
+                "name": "Assets",
+                "default": false,
+                "icon": "asset",
+                "data": {
+                    "Accounts receivable (dayn)": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Cash": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Inventory": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Expenses": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Investments": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Equipments": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    }
                 }
-            ],
-            "Pages": [
-                {
-                    "id": 1,
-                    "name": "Sales",
-                    "default": true,
-                    "icon": "cart"
-                },
-                {
-                    "id": 2,
-                    "name": "Assets",
-                    "icon": "asset"
-                },
-                {
-                    "id": 3,
-                    "name": "Liabilites",
-                    "default": false,
-                    "icon": "liable"
-                },
-                {
-                    "id": 4,
-                    "name": "Balance Sheet",
-                    "default": false,
-                    "icon": "balance"
+            },
+            {
+                "name": "Liabilities",
+                "default": false,
+                "icon": "liable",
+                "data": {
+                    "Accounts payable (qaan)": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Expenses": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Tax (canshuur)": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
+                        },
+                        "Success": true,
+                        "Error": false
+                    }
                 }
-            ],
-            "Actions": [
-                {
-                    "Name": "Add",
-                    "Fields": [
-                        {
-                            "Name": "SSGTeamName",
-                            "DisplayName": "SSGTeamName",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "dropDown",
-                            "DataSource": [
-                                {
-                                    "Name": "ALTS",
-                                    "Value": "ALTS",
-                                    "DependentFields": []
-                                },
-                                {
-                                    "Name": "BILLING",
-                                    "Value": "BILLING",
-                                    "DependentFields": []
-                                }
-                            ]
+            },
+            {
+                "name": "Balanace Sheet",
+                "default": false,
+                "icon": "balance",
+                "data": {
+                    "Assets": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
                         },
-                        {
-                            "Name": "BreakStatus",
-                            "DisplayName": "BreakStatus",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "dropDown",
-                            "DataSource": [
-                                {
-                                    "Name": "INPROGRESS",
-                                    "Value": "INPROGRESS",
-                                    "DependentFields": [
-                                        {
-                                            "Name": "ExpectedResolutionDate",
-                                            "FieldType": "date",
-                                            "DataSource": []
-                                        }
-                                    ]
-                                },
-                                {
-                                    "Name": "PENDINGFUTURE",
-                                    "Value": "PENDINGFUTURE",
-                                    "DependentFields": [
-                                        {
-                                            "Name": "ExpectedResolutionDate",
-                                            "FieldType": "date",
-                                            "DataSource": []
-                                        }
-                                    ]
-                                },
-                                {
-                                    "Name": "PENDINGTOMORROW",
-                                    "Value": "PENDINGTOMORROW",
-                                    "DependentFields": [
-                                        {
-                                            "Name": "ExpectedResolutionDate",
-                                            "FieldType": "date",
-                                            "DataSource": [
-                                                {
-                                                    "Name": "Tomorrow",
-                                                    "Value": "1"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Liabilities": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
                         },
-                        {
-                            "Name": "ExpectedResolutionDate",
-                            "DisplayName": "ExpectedResolutionDate",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "date",
-                            "DataSource": [
-                                {
-                                    "Name": "DisablePastDates",
-                                    "Value": true
-                                },
-                                {
-                                    "Name": "DisableWeekends",
-                                    "Value": true
-                                }
-                            ]
+                        "Success": true,
+                        "Error": false
+                    },
+                    "Equity": {
+                        "ColumnDefs": [],
+                        "Data": [],
+                        "Actions": [],
+                        "HistoryData": {
+                            "ColumnDefs": [],
+                            "Data": []
                         },
-                        {
-                            "Name": "SSGReasonCode",
-                            "DisplayName": "SSGReasonCode",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "dropDown",
-                            "DataSource": [
-                                {
-                                    "Name": "Blank",
-                                    "Value": "Blank",
-                                    "DependentFields": []
-                                },
-                                {
-                                    "Name": "Bid Deposits",
-                                    "Value": "Bid Deposits",
-                                    "DependentFields": []
-                                },
-                                {
-                                    "Name": "Broker to Amend",
-                                    "Value": "Broker to Amend",
-                                    "DependentFields": []
-                                }
-                            ]
-                        },
-                        {
-                            "Name": "SSGNote",
-                            "DisplayName": "SSGNote",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "simple",
-                            "DataSource": []
-                        },
-                        {
-                            "Name": "SSGClientNote",
-                            "DisplayName": "SSGClientNote",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "simple",
-                            "DataSource": []
-                        },
-                        {
-                            "Name": "CrossTeamNote",
-                            "DisplayName": "CrossTeamNote",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "simple",
-                            "DataSource": []
-                        },
-                        {
-                            "Name": "ClientNote",
-                            "DisplayName": "ClientNote",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "simple",
-                            "DataSource": []
-                        },
-                        {
-                            "Name": "ActionFlag",
-                            "DisplayName": "ActionFlag",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "userStamp",
-                            "DataSource": []
-                        },
-                        {
-                            "Name": "TrueDollarImpact",
-                            "DisplayName": "TrueDollarImpact",
-                            "Type": "int",
-                            "Required": false,
-                            "FieldType": "simple",
-                            "DataSource": []
-                        },
-                        {
-                            "Name": "TakeOwnershipOnTeamNameChange",
-                            "DisplayName": "TakeOwnershipOnTeamNameChange",
-                            "Type": "bool",
-                            "Required": false,
-                            "FieldType": "switch",
-                            "DataSource": []
-                        },
-                        {
-                            "Name": "PriorityFlag",
-                            "DisplayName": "PriorityFlag",
-                            "Type": "bool",
-                            "Required": false,
-                            "FieldType": "switch",
-                            "DataSource": []
-                        }
-                    ]
-                },
-                {
-                    "Name": "Search",
-                    "Fields": [
-                        {
-                            "Name": "View",
-                            "DisplayName": "View",
-                            "Type": "string",
-                            "Required": true,
-                            "FieldType": "dropDown",
-                            "DataSource": [
-                                {
-                                    "Name": "AllCash",
-                                    "Value": "AllCash",
-                                    "DependentFields": [
-                                        {
-                                            "Name": "CompareType",
-                                            "FieldType": "singleColumnMultiSelectDropDown",
-                                            "DataSource": [
-                                                {
-                                                    "Name": "PBA",
-                                                    "Value": "PBA"
-                                                },
-                                                {
-                                                    "Name": "CSA",
-                                                    "Value": "CSA"
-                                                },
-                                                {
-                                                    "Name": "OTC",
-                                                    "Value": "OTC"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "Name": "AllPosition",
-                                    "Value": "AllPosition",
-                                    "DependentFields": [
-                                        {
-                                            "Name": "CompareType",
-                                            "FieldType": "singleColumnMultiSelectDropDown",
-                                            "DataSource": [
-                                                {
-                                                    "Name": "CDS",
-                                                    "Value": "CDS"
-                                                },
-                                                {
-                                                    "Name": "PBP",
-                                                    "Value": "PBP"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "Name": "FOBOPOS",
-                                    "Value": "FOBOPOS",
-                                    "DependentFields": [
-                                        {
-                                            "Name": "SubCompareType",
-                                            "FieldType": "singleColumnMultiSelectDropDown",
-                                            "DataSource": []
-                                        }
-                                    ]
-                                },
-                                {
-                                    "Name": "FOREC",
-                                    "Value": "FOREC",
-                                    "DependentFields": [
-                                        {
-                                            "Name": "SubCompareType",
-                                            "FieldType": "singleColumnMultiSelectDropDown",
-                                            "DataSource": []
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "Name": "CompareType",
-                            "DisplayName": "CompareType",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "singleColumnMultiSelectDropDown",
-                            "DataSource": []
-                        },
-                        {
-                            "Name": "Region",
-                            "DisplayName": "Region",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "singleColumnMultiSelectDropDown",
-                            "DataSource": [
-                                {
-                                    "Name": "Americas",
-                                    "Value": "Americas",
-                                    "DependentFields": []
-                                },
-                                {
-                                    "Name": "APAC",
-                                    "Value": "APAC",
-                                    "DependentFields": []
-                                }
-                            ]
-                        },
-                        {
-                            "Name": "Client",
-                            "DisplayName": "Client",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "multiColumnMultiSelectDropDown",
-                            "DataSource": [
-                                {
-                                    "Name": "Axys Capital LLC",
-                                    "Value": "ACLC"
-                                },
-                                {
-                                    "Name": "Aksia LLC",
-                                    "Value": "AKSI"
-                                }
-                            ]
-                        },
-                        {
-                            "Name": "SSGTeamName",
-                            "DisplayName": "SSGTeamName",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "singleColumnMultiSelectDropDown",
-                            "DataSource": [
-                                {
-                                    "Name": "ALTS",
-                                    "Value": "ALTS",
-                                    "DependentFields": []
-                                },
-                                {
-                                    "Name": "BILLING",
-                                    "Value": "BILLING",
-                                    "DependentFields": []
-                                },
-                                {
-                                    "Name": "COMPARE",
-                                    "Value": "COMPARE",
-                                    "DependentFields": []
-                                },
-                                {
-                                    "Name": "NULL",
-                                    "Value": "NULL",
-                                    "DependentFields": []
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "Name": "Edit",
-                    "Fields": [
-                        {
-                            "Name": "Notes",
-                            "DisplayName": "Notes",
-                            "Type": "string",
-                            "Required": false,
-                            "FieldType": "simple"
-                        }
-                    ]
-                },
-                {
-                    "Name": "Delete"
-                },
-                {
-                    "Name": "AddDocument"
-                },
-                {
-                    "Name": "RemoveDocument"
-                },
-                {
-                    "Name": "ReadDocument"
-                },
-                {
-                    "Name": "ViewHistory"
+                        "Success": true,
+                        "Error": false
+                    }
                 }
-            ]
-        },
+            }
+        ],
         "Error": false
     }
 }

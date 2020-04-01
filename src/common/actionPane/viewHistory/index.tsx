@@ -95,7 +95,7 @@ class ViewHistory extends React.Component<ViewHistoryProps, ViewHistoryState> {
                             columnDefs={this.state.columnDefs}
                             isDataLoading={this.state.isDataLoading}
                             primaryKey={this.state.primaryKey}
-                            height={100}
+                            height={450}
                             gridOptions={{
                                 floatingFilter: false,
                                 rowGroupPanelShow: 'never',
@@ -113,6 +113,7 @@ class ViewHistory extends React.Component<ViewHistoryProps, ViewHistoryState> {
                 </div>
             </div>)
     }
+
     render() {
         return (
             <StyledDialog title={this.props.title}

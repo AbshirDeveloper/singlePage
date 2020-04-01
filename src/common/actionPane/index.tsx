@@ -1,13 +1,9 @@
 import React from 'react';
 import { Theme, createStyles, withStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Fields from './fields'
@@ -19,6 +15,8 @@ import { Tooltip, ClickAwayListener } from '@material-ui/core';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import CloseIcon from '@material-ui/icons/Close';
 import HistoryIcon from '@material-ui/icons/History';
+import SearchIcon from '@material-ui/icons/Search';
+import { Props, State } from './types'
 
 const useStyles = createStyles((theme: Theme) => ({
     root: {
@@ -59,13 +57,32 @@ const useStyles = createStyles((theme: Theme) => ({
 }),
 );
 
-class ActionPane extends React.Component<any, any>{
+class ActionPane extends React.Component<Props, State>{
     constructor(props) {
         super(props)
         this.state = {
             selectedAction: {},
             expanded: false,
             selectedFields: {}
+        }
+    }
+
+    componentDidUpdate(prevProps: any) {
+        if (prevProps.actionItems !== this.props.actionItems) {
+            this.setState({
+                selectedAction: {},
+                expanded: false,
+                selectedFields: {}
+            })
+        }
+        if (prevProps.selectedData !== this.props.selectedData) {
+            if (this.props.selectedData.length < 1 && this.state.selectedAction.Name === 'Edit') {
+                this.setState({
+                    selectedAction: {},
+                    expanded: false,
+                    selectedFields: {}
+                })
+            }
         }
     }
 
@@ -95,15 +112,22 @@ class ActionPane extends React.Component<any, any>{
     renderContents = () => {
         const action = this.state.selectedAction
         if (action.Fields && action.Fields.length) {
-            return <Fields selectedFields={this.state.selectedFields} handleOnSwitchChange={this.handleOnSwitchChange} handleOnChange={this.handleOnChange} fields={action.Fields} />
+            return <Fields currentSubView={this.props.views.subView} selectedFields={this.state.selectedFields} handleOnSwitchChange={this.handleOnSwitchChange} handleOnChange={this.handleOnChange} fields={action.Fields} />
         } else {
             return ''
         }
     }
 
     setSelectedAction = (action: string) => {
+        let selectedFields: any = {}
+        if (this.props.actionItems[action].Name === 'Edit') {
+            Object.keys(this.props.selectedData[0]).forEach(item => {
+                selectedFields[item.replace(/^\w/, c => c.toUpperCase())] = this.props.selectedData[0][item]
+            })
+        }
         this.setState({
             selectedAction: this.props.actionItems[action],
+            selectedFields: selectedFields,
             expanded: true
         })
     }
@@ -115,11 +139,7 @@ class ActionPane extends React.Component<any, any>{
     }
 
     renderActionIcons = () => {
-        let icons = [<Tooltip key={'close'} placement="bottom" title="Close">
-            <IconButton style={{ float: 'right' }} onClick={this.closeExpansionPanel} color="inherit">
-                <CloseIcon />
-            </IconButton>
-        </Tooltip>];
+        let icons = [];
         Object.values(this.props.actionItems).forEach((item: any) => {
             let icon: any = ''
             switch (item.Name) {
@@ -127,25 +147,36 @@ class ActionPane extends React.Component<any, any>{
                     icon = <Tooltip key={item.Name} placement="bottom" title="Add">
                         <span>
                             <IconButton disabled={!item.IsEntitled} onClick={() => this.setSelectedAction('Add')} color="inherit">
-                                <AddIcon />
+                                <AddIcon color={!item.IsEntitled ? "disabled" : "primary"} />
                             </IconButton>
                         </span>
                     </Tooltip>
                     break;
                 case 'Edit':
+                    const disableEdit = !(item.IsEntitled && this.props.selectedData.length === 1)
                     icon = <Tooltip key={item.Name} placement="bottom" title="Edit">
                         <span>
-                            <IconButton disabled={!item.IsEntitled} onClick={() => this.setSelectedAction('Edit')} color="inherit">
-                                <EditIcon />
+                            <IconButton disabled={disableEdit} onClick={() => this.setSelectedAction('Edit')} color="inherit">
+                                <EditIcon color={disableEdit ? "disabled" : "primary"} />
                             </IconButton>
                         </span>
                     </Tooltip>
                     break;
                 case 'Delete':
+                    const disableDelete = !(item.IsEntitled && this.props.selectedData.length)
                     icon = <Tooltip key={item.Name} placement="bottom" title="Delete">
                         <span>
-                            <IconButton disabled={!item.IsEntitled} onClick={() => this.setSelectedAction('Delete')} color="inherit">
-                                <DeleteForeverIcon />
+                            <IconButton disabled={disableDelete} onClick={item.onSubmit} color="inherit">
+                                <DeleteForeverIcon color={disableDelete ? "disabled" : "error"} />
+                            </IconButton>
+                        </span>
+                    </Tooltip>
+                    break;
+                case 'Search':
+                    icon = <Tooltip key={item.Name} placement="bottom" title="Search">
+                        <span>
+                            <IconButton disabled={!item.IsEntitled} onClick={() => this.setSelectedAction('Search')} color="inherit">
+                                <SearchIcon color={!item.IsEntitled ? "disabled" : "primary"} />
                             </IconButton>
                         </span>
                     </Tooltip>
@@ -154,7 +185,7 @@ class ActionPane extends React.Component<any, any>{
                     icon = <Tooltip key={item.Name} placement="bottom" title="File Upload">
                         <span>
                             <IconButton disabled={!item.IsEntitled} onClick={() => this.setSelectedAction('ReadDocument')} color="inherit">
-                                <AttachFileIcon />
+                                <AttachFileIcon color={!item.IsEntitled ? "disabled" : "primary"} />
                             </IconButton>
                         </span>
                     </Tooltip>
@@ -163,7 +194,7 @@ class ActionPane extends React.Component<any, any>{
                     icon = <Tooltip key={item.Name} placement="bottom" title="View History">
                         <span>
                             <IconButton disabled={!item.IsEntitled} onClick={item.onSubmit} color="inherit">
-                                <HistoryIcon />
+                                <HistoryIcon color={!item.IsEntitled ? "disabled" : "primary"} />
                             </IconButton>
                         </span>
                     </Tooltip>
@@ -179,7 +210,17 @@ class ActionPane extends React.Component<any, any>{
     }
 
     hanldeSubmitForm = () => {
-        this.state.selectedAction.onSubmit(this.state.selectedFields)
+        const response = this.state.selectedAction.onSubmit(this.state.selectedFields)
+        if (response) {
+            console.log('success')
+            this.setState({
+                selectedAction: {},
+                expanded: false,
+                selectedFields: {}
+            })
+        } else {
+            console.log('error')
+        }
     }
 
     hanldeClearForm = () => {
@@ -201,6 +242,7 @@ class ActionPane extends React.Component<any, any>{
                         id="panel1c-header"
                     >
                         {this.renderActionIcons()}
+                        {`${this.props.views.mainView} -> ${this.props.views.subView}`}
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.details}>
                         {this.renderContents()}

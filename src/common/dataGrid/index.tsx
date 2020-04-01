@@ -3,8 +3,9 @@ import { render } from 'react-dom';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import { Props, State } from './types'
 
-class AgGrid extends Component<any, any> {
+class AgGrid extends Component<Props, State> {
     gridApi: any
     gridColumnApi: any
     constructor(props) {
@@ -22,11 +23,12 @@ class AgGrid extends Component<any, any> {
     onGridReady = params => {
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
+        this.props.returnGridApi(params.api)
     };
 
     render() {
         return (
-            <div style={{ width: '100%', height: '812px' }}>
+            <div style={{ width: '100%', height: this.props.height ? this.props.height : '100%' }}>
                 <div
                     id="myGrid"
                     style={{
