@@ -8,7 +8,7 @@ import { getPages, getPageActionData, getData, getHistoryData, editData, addItem
 import AgGrid from '../../common/dataGrid'
 import ActionPane from '../../common/actionPane'
 import History from '../../common/actionPane/viewHistory'
-import MyCart from './components/Cart'
+import MyCart from './components/cart'
 const useStyles = createStyles((theme: Theme) => ({
     root: {
         display: 'flex',

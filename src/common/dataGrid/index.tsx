@@ -23,7 +23,7 @@ class AgGrid extends Component<Props, State> {
     onGridReady = params => {
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
-        this.props.returnGridApi(params.api)
+        this.props.returnGridApi && this.props.returnGridApi(params.api)
     };
 
     render() {
